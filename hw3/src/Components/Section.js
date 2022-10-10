@@ -13,18 +13,18 @@ function Section(props) {
 
     function createListElement(text) {
         const appList = document.getElementsByClassName("todo-app__list")[0];
-        const li_elenent = document.createElement("li");
-        li_elenent.classList.add("todo-app__item");
+        const listElement = document.createElement("li");
+        listElement.classList.add("todo-app__item");
         // will cause error if we don't set unique id
         // the id will be ambiguity
-        li_elenent.innerHTML = `
+        listElement.innerHTML = `
         <div class="todo-app__checkbox">
             <input id="${id}" type="checkbox">
             <label for="${id}"></label>
         </div>
         <h1 class="todo-app__item-detail">${text}</h1>
         <img src="./x.png" class="todo-app__item-x">`;
-        appList.appendChild(li_elenent);
+        appList.appendChild(listElement);
         changeId(id + 1);
         updateLeftNum(1);
     }
