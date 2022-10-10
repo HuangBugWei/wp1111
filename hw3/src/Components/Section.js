@@ -4,8 +4,8 @@ function Section(props) {
     const updateAllListNum = props.updateAllListNum;
     const updateLeftNum = props.updateLeftNum;
     const rmListElement = props.rmListElement;
-    const buttonState = props.buttonState;
     const updateCompletedNum = props.updateCompletedNum;
+    const buttonState = props.buttonState;
     
 
     const [text, setText] = useState("");
@@ -61,7 +61,7 @@ function Section(props) {
         }
     }
 
-    const delListElement = (event) => {
+    function delListElement(event) {
         if (event.target.tagName === "IMG") {
             let checked = event.target.parentElement.querySelector('input').checked;
             rmListElement(event.target.parentElement);
