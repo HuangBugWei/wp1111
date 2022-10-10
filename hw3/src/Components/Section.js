@@ -19,7 +19,7 @@ function Section(props) {
         // the id will be ambiguity
         listElement.innerHTML = `
         <div class="todo-app__checkbox">
-            <input id="${id}" type="checkbox">
+            <input id="${id}" type="checkbox"/>
             <label for="${id}"></label>
         </div>
         <h1 class="todo-app__item-detail">${text}</h1>
