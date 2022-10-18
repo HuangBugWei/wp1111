@@ -41,15 +41,51 @@ const useWordle = (solution) => {
         }
         // (3) Press Enter, store curGuess to guesses, reset curGuess and update parameters .
     
-        // console.log("Press Enter!!!! Store and reset curGuess!");
+        console.log("Press Enter!!!! Store and reset curGuess!");
+        console.log(curGuess)
+        console.log(guesses)
+        // let newGuess = JSON.parse(JSON.stringify(guesses))
+        // let newGuess = structuredClone(guesses)
+        let tempSol = solution
+        let newTurn = turn
+        console.log("asdf")
+        
         // TODO 4: Check each wordbox's color in `curGuess` and update `guess`, `turn` and `curGuess`
         // Hint: check green first, and then check yellow.
+        let subarray = []
+        for (let i=0; i<curGuess.length; i++){
+            if (curGuess[i] === tempSol[i]){
+                subarray.push({char: curGuess[i], color: 'green'})
+                tempSol = tempSol.slice(0, i) + " " + tempSol.slice(i+1)
+            }else{
+                subarray.push({char: curGuess[i], color: 'grey'})
+            }
+        }
 
+        for (let i=0; i<curGuess.length; i++){
+            if (subarray[i].color !== 'green'){
+                if (tempSol.includes(subarray[i].char)) {
+                    subarray[i].color = 'yellow'
+                    tempSol = tempSol.slice(0, i) + " " + tempSol.slice(i+1)
+                }
+            }
+        }
+        console.log(guesses)
+        guesses[turn] = subarray
+        
+        console.log("solution")
+        console.log(solution)
+        console.log(tempSol)
+        console.log(guesses)
+        
+        setGuesses(guesses)
         // add the formatted guess generated into guesses.
         
-        // turn += 1
+        newTurn += 1
+        setTurn(newTurn)
         
         // set curGuess to default
+        setCurGuess("")
 
 
         // TODO 5: update parameters, check each char usage and show in `Keyboard` and reset `curGuess`.
@@ -74,7 +110,7 @@ const useWordle = (solution) => {
         }
     }
     const handleKeyup = ({ key }) => {
-        // console.log("You just press: ", key);
+        console.log("You just press: ", key);
         if (key === 'Enter') handleEnter();
         else if (key === 'Backspace') handleBackspace();
         else if (/^[A-Za-z]$/.test(key)) handleCharacter(key);

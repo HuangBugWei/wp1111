@@ -16,14 +16,14 @@ const CurRow = ({ curGuess, rowIdx }) => {
     for (let i = 0; i < nullSpace; i++) {
         letters.push('')
     }
-    console.log(letters)
+    
     return (
         <div className='Row-container'>
             {/* TODO 3: Row Implementation -- CurRow */}
             
             {/* ↓ Default row, you should modify it. ↓ */}
             <div className='Row-wrapper current'>
-                {letters.map((w, idx) => (w !== "") ? <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className={'Row-wordbox filled'}>{w.char}</div> : <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className='Row-wordbox'></div> )}
+                {letters.map((w, idx) => (w !== "") ? <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className={'Row-wordbox filled'}>{w}</div> : <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className='Row-wordbox'></div> )}
                 
                 {/* <div className='Row-wordbox'></div>
                 <div className='Row-wordbox'></div>
