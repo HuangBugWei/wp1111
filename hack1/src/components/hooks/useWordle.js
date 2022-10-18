@@ -66,17 +66,13 @@ const useWordle = (solution) => {
             if (subarray[i].color !== 'green'){
                 if (tempSol.includes(subarray[i].char)) {
                     subarray[i].color = 'yellow'
-                    tempSol = tempSol.slice(0, i) + " " + tempSol.slice(i+1)
+                    let rmIdx = tempSol.indexOf(subarray[i].char)
+                    tempSol = tempSol.slice(0, rmIdx) + " " + tempSol.slice(rmIdx+1)
                 }
             }
         }
         console.log(guesses)
         guesses[turn] = subarray
-        
-        console.log("solution")
-        console.log(solution)
-        console.log(tempSol)
-        console.log(guesses)
         
         setGuesses(guesses)
         // add the formatted guess generated into guesses.
