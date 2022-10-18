@@ -11,18 +11,19 @@ import React from 'react';
 
 
 const Row = ({ guess, rowIdx }) => {
+    let outcase = ['', '', '', '', '']
     return (
         <div className='Row-container'>
             {/* TODO 3: Row Implementation -- Row */}
             
             {/* ↓ Default row, you should modify it. ↓ */}
+            
             <div className='Row-wrapper'>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
+                {(guess !== undefined) ? guess.map((w, idx) => <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className={'Row-wordbox '+ w.color}>{w.char}</div>): 
+                    outcase.map((w, idx) => <div id={rowIdx+'-'+idx} key={rowIdx+'-'+idx} className='Row-wordbox'></div>)
+                }
             </div>
+            
             {/* ↑ Default row, you should modify it. ↑ */}
         </div>
     )
