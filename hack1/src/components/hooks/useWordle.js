@@ -81,14 +81,19 @@ const useWordle = (solution) => {
         setTurn(newTurn)
         
         // set curGuess to default
-        setCurGuess("")
-
-
+        
+        
         // TODO 5: update parameters, check each char usage and show in `Keyboard` and reset `curGuess`.
         // 5-1) check if curGuess === solution, if true, set `isCorrect` to true.
+        if (curGuess === solution) {
+            setIsCorrect(true)
+            console.log("win")
+        }
+        setCurGuess("")
         
         
         // 5-2) usedChars update
+        
         
         
     }
