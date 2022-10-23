@@ -1,7 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 
 import { useState } from 'react';
+import { startGame, guess, restart } from './axios'
 
 function App() {
   const [hasStarted, setHasStarted] = useState(false)
@@ -10,8 +10,7 @@ function App() {
   const [status, setStatus] = useState('')
   
   const handleGuess = async () => {
-    // const response = await processGuessByBackend(number)
-    const response = 'equal'
+    const response = await guess(number)
 
     if (response === 'Equal') {
       setHasWon(true)
@@ -44,13 +43,16 @@ function App() {
     </div>
   )
 
+  const game = (
+    <div>
+      {hasWon ? winningMode : gameMode}
+    </div>
+  )
 
   return (
     <div className='App'>
-      {/* {hasStarted ? gameMode : startMenu} */}
-      {startMenu}
-      {gameMode}
-      {winningMode}
+      {hasStarted ? game : startMenu}
+      
     </div>
   );
 }
