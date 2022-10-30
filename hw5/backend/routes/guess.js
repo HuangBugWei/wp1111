@@ -1,5 +1,5 @@
 import express from 'express'
-import { getNumber, genNumber } from '../core/getNumber'
+import { getNumber, genNumber, genRockNumber } from '../core/getNumber'
 
 const router = express.Router()
 router.post('/start', (_, res) => {
@@ -35,5 +35,41 @@ router.post('/restart', (_, res) => {
     genNumber() // should remember re-generate number
     res.json({ msg: 'Play again.' })
 })
+
+router.get('/shoot', (req, res) => {
+  const compueterState = genRockNumber()
+  const withStatement = Number(req.query.rockstatus)
+  
+  if (compueterState === withStatement) {
+      if (compueterState === 0) {
+        res.json({ msg: "Tie!", oppon: "Rock"})
+      }else if (compueterState === 1) {
+        res.json({ msg: "Tie!", oppon: "Paper"})
+      }else {
+        res.json({ msg: "Tie!", oppon: "Scissors"})
+      }
+  }
+  else if ((compueterState-withStatement) === (1 || -2)) {
+      // res.json({ msg: "You Lose."})
+      if (compueterState === 0) {
+        res.json({ msg: "You lose.", oppon: "Rock"})
+      }else if (compueterState === 1) {
+        res.json({ msg: "You lose.", oppon: "Paper"})
+      }else {
+        res.json({ msg: "You lose.", oppon: "Scissors"})
+      }
+      
+  }else {
+      // res.json({ msg: "You won!"})
+      if (compueterState === 0) {
+        res.json({ msg: "You won.", oppon: "Rock"})
+      }else if (compueterState === 1) {
+        res.json({ msg: "You won.", oppon: "Paper"})
+      }else {
+        res.json({ msg: "You won.", oppon: "Scissors"})
+      }
+  }
+})
+
 export default router
    
