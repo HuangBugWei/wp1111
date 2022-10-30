@@ -9,12 +9,17 @@ const startGame = async () => {
 }
 
 const guess = async (number) => {
-    const { data: { msg } } = await instance.get('/guess', { params: { number } })
-    return msg
+    try {
+        const { data: { msg } } = await instance.get('/guess', { params: { number } })
+        return msg
+    }catch (error){
+        let msg = `${number} is not a legal input.`
+        return msg
+    }
 }
 
 const restart = async () => {
-    const { data: { msg } } = await instance.post('./start')
+    const { data: { msg } } = await instance.post('./restart')
     return msg
 }
 

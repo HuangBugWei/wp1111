@@ -8,30 +8,45 @@ function App() {
   const [hasWon, setHasWon] = useState(false)
   const [number, setNumber] = useState('')
   const [status, setStatus] = useState('')
+  const [upperbound, setUpperBound] = useState(100)
+  const [lowerbound, setLowerBound] = useState(1)
   
   const handleGuess = async () => {
     const response = await guess(number)
+    
+    setStatus(response)
 
-    if (response === 'Equal') {
+    if (response === 'Bang!!!') {
       setHasWon(true)
-    }else{
-      setStatus(response)
+    }
+    else if (response === 'Higher') {
+      setLowerBound(number)
       setNumber('')
     }
+    else if (response === 'Lower') {
+      setUpperBound(number)
+      setNumber('')
+    }
+    
   }
   
   const startMenu = (
     <div>
       {/* someFunctionToBackend; and setHasStarted */}
-      <button onClick={ setHasStarted }> start game</button>
+      <button onClick={ async() => {
+        setHasStarted(true)
+        let msg = await startGame()
+        setStatus(msg)
+      } }> start game</button>
+      
     </div>
   )
 
   const gameMode = (
     <div>
-      <p>Guess a number between 1 to 100</p>
-      <input></input>
-      <button onClick={handleGuess} disabled={!number}>guess!</button>
+      <p>Guess a number between {lowerbound} to {upperbound}</p>
+      <input value={number} onChange={(e) => {setNumber(e.target.value)}}></input>
+      <button onClick={ handleGuess } disabled={!number}>guess!</button>
       <p>{status}</p>
     </div>
   )
@@ -39,8 +54,15 @@ function App() {
   const winningMode = (
     <div>
       <p>you won! the number was {number}.</p>
-      <button>restart</button>
-    </div>
+      <button onClick = {async() => {
+        setHasWon(false)
+        let msg = await restart()
+        setStatus(msg)
+        setUpperBound(100)
+        setLowerBound(1)
+        setNumber('')
+      }}>restart</button>
+    </div>  
   )
 
   const game = (
@@ -52,7 +74,6 @@ function App() {
   return (
     <div className='App'>
       {hasStarted ? game : startMenu}
-      
     </div>
   );
 }
