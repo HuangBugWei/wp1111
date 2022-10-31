@@ -49,7 +49,7 @@ router.get('/shoot', (req, res) => {
         res.json({ msg: "Tie!", oppon: "Scissors"})
       }
   }
-  else if ((compueterState-withStatement) === (1 || -2)) {
+  else if ((compueterState-withStatement === 1) || (compueterState-withStatement === -2)) {
       // res.json({ msg: "You Lose."})
       if (compueterState === 0) {
         res.json({ msg: "You lose.", oppon: "Rock"})
