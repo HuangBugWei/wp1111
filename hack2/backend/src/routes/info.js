@@ -140,7 +140,7 @@ exports.GetSearch = async (req, res) => {
                     message: 'success',
                     contents: existing
                 }
-            );
+            )
         // }
         // else {
         //     throw new Error('Something Wrong !')
@@ -151,7 +151,7 @@ exports.GetSearch = async (req, res) => {
         res.status(403).send(
             {
                 message: 'error',
-                contents: null
+                contents: []
             }
         )
     }
@@ -161,6 +161,32 @@ exports.GetInfo = async (req, res) => {
     /*******    NOTE: DO NOT MODIFY   *******/
     const id = req.query.id
     /****************************************/
+    // const existing = await Info.find( {id : id} )
+    // if (existing){
+    //     {
+    //         message: 'success'
+    //         contents: existing
+    //     }
+    // }else{
+
+    // }
+    try {
+        const existing = await Info.find( {id : id} )
+            res.status(200).send(
+                {
+                    message: 'success',
+                    contents: existing
+                }
+            )
+    } catch (error) {
+        console.error(error.name + ' ' + error.message)
+        res.status(403).send(
+            {
+                message: 'error',
+                contents: []
+            }
+        )
+    }
 
     // NOTE USE THE FOLLOWING FORMAT. Send type should be 
     // if success:

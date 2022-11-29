@@ -13,9 +13,10 @@ import '../css/restaurantPage.css'
 const Information = ({ info, rating }) => {
 
     const getTag = (tags) => {
+        
         return (
             <>
-                {/* TODO Part III-2-a render tags */}
+            {tags.map((item) => (<div className='tag' key={item}>{item}</div>))}
             </>
         )
     }
@@ -25,16 +26,22 @@ const Information = ({ info, rating }) => {
             priceText += "$"
         return (
             <>
-                {/* TODO Part III-2-a render price tags; hint: convert price number to dollar signs first */}
+            <div className='tag' key={priceText}>{priceText}</div>
             </>
         )
     }
 
     const getBusiness = (time) => {
-        
+        const week = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
         return (
             <div className='businessTime'>
                 {/* TODO Part III-2-c: render business time for each day*/}
+                {week.map((item) => (
+                    <div className='singleDay'>
+                        <div className='day'>{item}</div>
+                        <div className='time'>{time[item] ? time[item] : 'Closed'}</div>
+                    </div>
+                ))}
             </div>
         )
     }
@@ -45,7 +52,6 @@ const Information = ({ info, rating }) => {
             <div className='infoRow'>
                 <div className='rate'>
                     {rating === 0 ? <p>No Rating</p> : <Stars rating={rating} displayScore={true} />}
-
                 </div>
                 <div className='distance'>{info.distance / 1000} km</div>
             </div>
