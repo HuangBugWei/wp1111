@@ -37,6 +37,12 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
                 content: content
             }]
         )
+        setComments([...comments, [{
+            restaurantId: restaurantId,
+            name: name,
+            rating: rating,
+            content: content
+        }]])
     }
 
     const submitComment = () => {
@@ -46,7 +52,7 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
         setName('')
         setContent('')
     }
-    
+
     return (
         <div className='commentContainer'>
             <div className='inputContainer'>
