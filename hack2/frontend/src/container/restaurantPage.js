@@ -33,7 +33,7 @@ const RestaurantPage = () => {
         // TODO Part III-3: get a restaurant's comments 
         const {data: {contents}} = 
             await instance.get('/getCommentsByRestaurantId', { params: { restaurantId: id } })
-        // console.log(contents)
+        console.log(contents)
         setComments(contents)
     }
     useEffect(() => {

@@ -28,14 +28,25 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
 
 
     const storeComment = async () => {
-        await instance.post('createComment/', {
+        await instance.post('createComment/', 
             // TODO Part III-3-b: store the comment to the DB
-        })
+            [{
+                restaurantId: restaurantId,
+                name: name,
+                rating: rating,
+                content: content
+            }]
+        )
     }
 
     const submitComment = () => {
         // TODO Part III-3-b: submit a comment and reset input fields
+        storeComment()
+        setRating(0)
+        setName('')
+        setContent('')
     }
+    
     return (
         <div className='commentContainer'>
             <div className='inputContainer'>
@@ -51,7 +62,7 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
                         />
                     </div>
                     <div className='submit'>
-                        <button onClick={submitComment}>Submit</button>
+                        <button onClick={submitComment} disabled={!rating || !name || !content}>Submit</button>
                     </div>
                 </div>
                 <textarea className='content' placeholder='Type your comment' onChange={e => setContent(e.target.value)} value={content} />
