@@ -31,45 +31,45 @@ exports.GetSearch = async (req, res) => {
     // TODO Part II-2-b: revise the route so that the result is sorted by sortBy
     // const existing = await Info.find({condition}).sort({ timestamp: -1 })
     
-    console.log('priceFilter:backend23')
-    console.log(priceFilter)
-    const existing = await Info.find({name: "王品牛排"})
+    // console.log('priceFilter:backend23')
+    // console.log(priceFilter)
+    // const existing = await Info.find({name: "王品牛排"})
 
-    console.log('existing')
-    console.log(existing)
-    console.log(existing[0]["tag"])
+    // console.log('existing')
+    // console.log(existing)
+    // console.log(existing[0]["tag"])
 
-    console.log(existing[0]["tag"].includes("Lunch"))
-    return existing[0]
+    // console.log(existing[0]["tag"].includes("Lunch"))
+    // return existing[0]
 
     // console.log(['joe', 'jane', 'mary'].includes('jane'))
     
-    // try {
-    //     // const existing = await Info.find({price: priceFilter})
+    try {
+        // const existing = await Info.find({price: priceFilter})
         
-    //     const existing = await Info.find({id: "王品牛排"})
-        
-    //     if (existing.length) {
-    //         res.status(200).send(
-    //             {
-    //                 message: 'success',
-    //                 contents: posts
-    //             }
-    //         );
-    //     }
-    //     else {
-    //         throw new Error('Something Wrong !')
-    //     }
+        const existing = await Info.find({name: "王品牛排"})
+        console.log(existing)
+        if (existing.length) {
+            res.status(200).send(
+                {
+                    message: 'success',
+                    contents: existing
+                }
+            );
+        }
+        else {
+            throw new Error('Something Wrong !')
+        }
 
-    // } catch (error) {
-    //     console.error(error.name + ' ' + error.message)
-    //     res.status(403).send(
-    //         {
-    //             message: 'error',
-    //             contents: null
-    //         }
-    //     )
-    // }
+    } catch (error) {
+        console.error(error.name + ' ' + error.message)
+        res.status(403).send(
+            {
+                message: 'error',
+                contents: null
+            }
+        )
+    }
 }
 
 exports.GetInfo = async (req, res) => {
