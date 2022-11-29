@@ -29,37 +29,122 @@ exports.GetSearch = async (req, res) => {
     
     // TODO Part II-2-a: revise the route so that the result is filtered with priceFilter, mealFilter and typeFilter
     // TODO Part II-2-b: revise the route so that the result is sorted by sortBy
-    // const existing = await Info.find({condition}).sort({ timestamp: -1 })
-    
-    // console.log('priceFilter:backend23')
-    // console.log(priceFilter)
-    // const existing = await Info.find({name: "王品牛排"})
+    const finalFilter = []
+    if (priceFilter) {
+        const filterArr = []
+        for (let i = 0; i < priceFilter.length; i++) {
+            filterArr.push({price: priceFilter[i].length})
+        }
+        // filterArr = [{price: 1}, ...]
+        // https://www.mongodb.com/docs/manual/reference/operator/query/and/
+        finalFilter.push( { $or: filterArr } )
+    }
 
-    // console.log('existing')
-    // console.log(existing)
-    // console.log(existing[0]["tag"])
+    if (mealFilter) {
+        const filterArr = []
+        for (let i = 0; i < mealFilter.length; i++) {
+            filterArr.push({tag: mealFilter[i]})
+        }
+        finalFilter.push( { $or: filterArr } )
+        // https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    }
 
-    // console.log(existing[0]["tag"].includes("Lunch"))
-    // return existing[0]
+    if (typeFilter) {
+        const filterArr = []
+        for (let i = 0; i < typeFilter.length; i++) {
+            filterArr.push({tag: typeFilter[i]})
+        }
+        finalFilter.push( { $or: filterArr } )
+        // https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    }
 
-    // console.log(['joe', 'jane', 'mary'].includes('jane'))
-    
+    // const rtnPriceFilter = async (priceFilter) => {
+    //     if (priceFilter) {
+    //         const filterArr = []
+    //         for (let i = 0; i < priceFilter.length; i++) {
+    //             filterArr.push({price: priceFilter[i].length})
+    //         }
+    //         // filterArr = [{price: 1}, ...]
+    //         const afterPriceFilter = await Info.find( { $or: filterArr } )
+    //         // https://www.mongodb.com/docs/manual/reference/operator/query/and/
+    //         return afterPriceFilter
+    //     } else {
+    //         const afterPriceFilter = await Info.find()
+    //         return afterPriceFilter    
+    //     }
+    // }
+
+    // const afterPriceFilter = await rtnPriceFilter(priceFilter)
+
+    // const rtnMealFilter = async (mealFilter) => {
+    //     if (mealFilter) {
+    //         const filterArr = []
+    //         for (let i = 0; i < mealFilter.length; i++) {
+    //             filterArr.push({tag: mealFilter[i]})
+    //         }
+    //         const afterMealFilter = await Info.find( { $or: filterArr } )
+    //         return afterMealFilter
+    //         // https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    //     } else {
+    //         const afterMealFilter = await Info.find()
+    //         return afterMealFilter    
+    //     }
+    // }
+
+    // const afterMealFilter = await rtnMealFilter(mealFilter)
+
+    // const rtnTypeFilter = async (typeFilter) => {
+    //     if (typeFilter) {
+    //         const filterArr = []
+    //         for (let i = 0; i < typeFilter.length; i++) {
+    //             filterArr.push({tag: typeFilter[i]})
+    //         }
+    //         const afterTypeFilter = await Info.find( { $or: filterArr } )
+    //         return afterTypeFilter
+    //         // https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    //     } else {
+    //         const afterTypeFilter = await Info.find()
+    //         return afterTypeFilter    
+    //     }
+    // }
+
+    // const afterTypeFilter = await rtnTypeFilter(typeFilter)
+    // const existing = await Info.find( { $and: finalFilter } )
+    // console.log(existing.length)
+
     try {
         // const existing = await Info.find({price: priceFilter})
+        const existing = await Info.find( finalFilter.length === 0 ? {} : { $and: finalFilter } )
+        // console.log(existing.length)
+        if (sortBy === 'price') {
+            existing.sort(function(a, b){
+                // https://stackoverflow.com/questions/8837454/sort-array-of-objects-by-single-key-with-date-value
+                // Compare the 2 dates
+                if(a.price < b.price) return -1;
+                if(a.price > b.price) return 1;
+                return 0;
+            });
+        } else {
+            existing.sort(function(a, b){
+                if(a.distance < b.distance) return -1;
+                if(a.distance > b.distance) return 1;
+                return 0;
+            });
+        }
         
-        const existing = await Info.find({name: "王品牛排"})
-        console.log(existing)
-        if (existing.length) {
+        // if (existing.length) {
+            // console.log(existing)
+            // console.log('sssssspriceFilter')
             res.status(200).send(
                 {
                     message: 'success',
                     contents: existing
                 }
             );
-        }
-        else {
-            throw new Error('Something Wrong !')
-        }
+        // }
+        // else {
+        //     throw new Error('Something Wrong !')
+        // }
 
     } catch (error) {
         console.error(error.name + ' ' + error.message)

@@ -21,15 +21,16 @@ const SearchPage = () => {
     
     const getRestaurant = async () => {
         // TODO Part I-3-b: get information of restaurants from DB
-        console.log("f")
-        const {
-            message: msg,
-            contents: obj
-        }= await instance.get('/getSearch')
+        console.log('state')
+        console.log(state)
+        const {data: {contents}} = 
+            await instance.get('/getSearch', { params: { priceFilter: state.priceFilter, 
+                                                    mealFilter:state.mealFilter, 
+                                                    typeFilter: state.typeFilter, 
+                                                    sortBy: state.sortBy } })
         
-        console.log('rtn')
-        console.log(msg)
-        console.log(obj)
+        // console.log(contents)
+        setRestaurant(contents)
     }
 
     useEffect(() => {
