@@ -6,6 +6,8 @@ import styled from "styled-components"
 import Title from '../components/Title';
 import Message from '../components/Message';
 import ChatModal from '../components/ChatModal';
+import { useQuery, useMutation } from "@apollo/client";
+import { CHATBOX_QUERY, CREATE_CHATBOX_MUTATION, CREATE_MESSAGE_MUTATION, MESSAGE_SUBSCRIPTION } from "../graphql";
 
 const ChatBoxesWrapper = styled(Tabs)`
   width: 100%;
@@ -30,7 +32,7 @@ const FootRef = styled.div`
 `
 
 const ChatRoom = () => {
-  const { me, messages, startChat, sendMessage, displayStatus } = useChat()
+  const { me, messages, startChat, sendMessage, displayStatus, friend, setFriend, data } = useChat()
   const [msg, setMsg] = useState('')
   const [msgSent, setMsgSent] = useState(false)
   const [activeKey, setActiveKey] = useState('')
@@ -39,22 +41,33 @@ const ChatRoom = () => {
 
   const msgRef = useRef(null)
   const msgFooter = useRef(null)
-
+  
   const displayChat = (chat) => (
     chat.length === 0 ? (
       <p style={{color: '#ccc'}}> No messages... </p>
     ) : (
     <ChatBoxWrapper>{
-      chat.map(({ name, body }, i) => (
+      chat.map(({ sender:name, body }, i) => (
         <Message isMe={name === me} message={body} key={i} />
       ))}
       <FootRef ref={msgFooter} />
     </ChatBoxWrapper>
     )
   )
-
+  
+//   const { data, loading, subscribeToMore }
+//   = useQuery(CHATBOX_QUERY, {
+//       variables: {
+//           name1: me,
+//           name2: friend,
+//       },
+//   });
+//   useEffect(() => {
+//     console.log('subscribeToMore111')
+// }, [subscribeToMore])
   const extractChat = (friend) => {
-    return displayChat(messages.filter(({name, body}) => ((name === friend) || (name === me))))
+    // return displayChat(messages.filter(({sender, body}) => ((sender === friend) || (sender === me))))
+    return displayChat(messages)
   }
 
   const createChatBox = (friend) => {
@@ -64,7 +77,6 @@ const ChatRoom = () => {
             throw new Error(friend + "'s chat box has already opened.");
     }
     
-    // setMsgSent(true);
     return friend;
   };
 
@@ -90,7 +102,7 @@ const ChatRoom = () => {
     setMsgSent(false)}, [msgSent])
   
   useEffect(() => {
-    if (activeKey !== ''){
+    if (activeKey !== '' && data.chatbox.messages){
       const chat = extractChat(activeKey);
       if (chatBoxes.some (({key}) => key === activeKey)) {
         const index = chatBoxes.findIndex(({key}) => key === activeKey);
@@ -115,12 +127,15 @@ const ChatRoom = () => {
         onChange={(key) => {
           startChat(me, key)
           setActiveKey(key);
+          setFriend(key);
           extractChat(key);
         }}
         onEdit={(targetKey, action) => {
             if (action === 'add') setModalOpen(true);
             else if (action === 'remove') {
                 setActiveKey(removeChatBox(targetKey, activeKey));
+                setFriend(removeChatBox(targetKey, activeKey))
+                
             }
             }}
         items={chatBoxes}
@@ -129,6 +144,7 @@ const ChatRoom = () => {
             open={modalOpen}
             onCreate={({ name }) => {
                 setActiveKey(createChatBox(name));
+                setFriend(name)
                 extractChat(name);
                 setModalOpen(false);
             }}
