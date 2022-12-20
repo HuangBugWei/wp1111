@@ -71,9 +71,9 @@ function Home() {
           if (!subscriptionData.data) return prev;
           // since return is already ID! type
           const deletedItemID = subscriptionData.data.itemDeleted
-          let newItems = prev.items.filter(item => item.id !== deletedItemID)
+          let filterItems = prev.items.filter(item => item.id !== deletedItemID)
           return {
-            items: [...newItems],
+            items: [...filterItems],
           };
         },
       });
