@@ -12,9 +12,9 @@ function Analytics() {
   // } = useQuery(GET_ITEMS_QUERY);
   // const items = itemsData.items;
   const {
-     data: itemsData,
+     data
   } = useQuery(GET_ITEMS_QUERY);
-  const { items } = itemsData;
+  const { items } = data;
   // TODO 2.2 End
 
 
