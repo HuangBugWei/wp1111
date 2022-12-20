@@ -11,27 +11,20 @@ function Analytics() {
   //   loading, error, data: itemsData, subscribeToMore,
   // } = useQuery(GET_ITEMS_QUERY);
   // const items = itemsData.items;
-  const {
-     data
-  } = useQuery(GET_ITEMS_QUERY);
+  const { data } = useQuery(GET_ITEMS_QUERY);
   const { items } = data;
   // TODO 2.2 End
 
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      { 
-        // TODO 2.3 Add Balence and Category (uncomment the following code)
-      }
+      
       <div className="col-span-6">
         <Balance items={items} />
       </div>
       <div className="col-span-6">
         <Category items={items} />
       </div>
-      {
-        // TODO 2.3 End
-      }
     </div>
   );
 }
