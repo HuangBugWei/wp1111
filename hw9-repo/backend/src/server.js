@@ -7,12 +7,12 @@ import routes from './routes';
 
 const app = express();
 if (process.env.NODE_ENV === "development") {
-  // app.use(cors());
-  app.use(bodyParser.json());
-  app.use(express.json());
   app.use(cors());
-  app.use('/', routes);
 }
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
+app.use('/', routes);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
