@@ -40,5 +40,6 @@ console.log(`Example app listening on port ${port}!`),
 //     res.send('Received a DELETE HTTP method\n');
 //     });
 
-
+console.log("trying connect db")
 db.connect();
+console.log("db finally connected!")
