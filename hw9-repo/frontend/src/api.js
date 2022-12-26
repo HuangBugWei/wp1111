@@ -9,7 +9,7 @@ const API_ROOT =
     ? "/"
     : "http://localhost:4000/";
 
-export const instance = axios.create({ baseURL: API_ROOT });
+export default instance = axios.create({ baseURL: API_ROOT });
 
 // export default instance;
 
